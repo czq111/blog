@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.czq.blog.mapper.TagMapper">
+
+    <select id="findTagsByArticleId" resultType="com.czq.blog.pojo.entity.Tag">
+    select t.id,t.avatar,t.tag_name from ms_article art left join ms_article_tag tag  on art.id=tag.article_id
+    left join  ms_tag   t      on tag.tag_id=t.id where art.id=#{id}
+    </select>
+
+    <select id="getTagsByTagsId" resultType="com.czq.blog.pojo.entity.Tag" parameterType="list">
+        select * from ms_tag where id in 
+            <foreach collection="tagsId" item="id" separator="," open="(" close=")">
+                #{id}
+            </foreach>
+    </select>
+</mapper>
