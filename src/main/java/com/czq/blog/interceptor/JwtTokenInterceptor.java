@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.czq.blog.common.ErrorCode;
 import com.czq.blog.pojo.entity.SysUser;
 import com.czq.blog.result.Result;
+import com.czq.blog.utils.UserThreadLocal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -45,6 +46,12 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
             return false;
         }
         log.info("已经登录，放行");
+        UserThreadLocal.put(sysUser);
         return true;
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        UserThreadLocal.remove();
     }
 }
