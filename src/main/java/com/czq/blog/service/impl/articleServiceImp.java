@@ -5,6 +5,8 @@ import com.czq.blog.pojo.dto.PageParamsDto;
 import com.czq.blog.pojo.entity.Article;
 import com.czq.blog.pojo.entity.SysUser;
 import com.czq.blog.pojo.vo.ArticleVo;
+import com.czq.blog.pojo.vo.HotArticleVo;
+import com.czq.blog.pojo.vo.ListArchivesVo;
 import com.czq.blog.service.ArticleService;
 import com.czq.blog.service.SysUserService;
 import com.czq.blog.service.TagService;
@@ -45,6 +47,24 @@ public class articleServiceImp implements ArticleService {
         List<Article> result = articlePage.getResult();
         List<ArticleVo> res=copyList(result);
         return res;
+    }
+
+    @Override
+    public List<HotArticleVo> getHotArticle(int limit) {
+        List<HotArticleVo> articles=articleMapper.getHotArticle(limit);
+        return articles;
+    }
+
+    @Override
+    public List<HotArticleVo> getNewArticle() {
+        List<HotArticleVo> newArticleVos=articleMapper.getNewArticle();
+        return newArticleVos;
+    }
+
+    @Override
+    public List<ListArchivesVo> getListArchives() {
+        List<ListArchivesVo> listArchivesVos=articleMapper.getListArchives();
+        return listArchivesVos;
     }
 
     private List<ArticleVo> copyList(List<Article> result) {
