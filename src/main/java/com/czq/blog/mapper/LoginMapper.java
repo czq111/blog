@@ -8,4 +8,9 @@ import org.apache.ibatis.annotations.Select;
 public interface LoginMapper {
     @Select("select * from ms_sys_user where account=#{account} and password=#{pwd}")
     SysUser login(String account, String pwd);
+
+    @Select("select * from ms_sys_user where account=#{account}")
+    SysUser findUserByAccount(String account);
+
+    void insertUser(SysUser sysUser);
 }

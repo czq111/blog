@@ -1,12 +1,17 @@
 package com.czq.blog.config;
 
+import com.czq.blog.interceptor.JwtTokenInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+    @Autowired
+    JwtTokenInterceptor jwtTokenInterceptor;
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         //跨域配置，不可设置为*，不安全, 前后端分离项目，可能域名不一致
@@ -14,4 +19,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**").allowedOrigins("http://localhost:8080");
     }
 
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(jwtTokenInterceptor).addPathPatterns("");
+    }
 }

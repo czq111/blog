@@ -12,4 +12,6 @@ public class LoginUserVo {
     private String nickname;
 
     private String avatar;
+
+    private String password;
 }
