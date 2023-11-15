@@ -28,7 +28,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader("Oauth-Token");
         if(token==null){
             Result res = Result.fail(-999, "未登录");
             response.setContentType("application/json;charset=utf-8");
