@@ -3,13 +3,14 @@ package com.czq.blog.service.impl;
 import com.czq.blog.mapper.ArticleMapper;
 import com.czq.blog.pojo.dto.PageParamsDto;
 import com.czq.blog.pojo.entity.Article;
+import com.czq.blog.pojo.entity.Category;
 import com.czq.blog.pojo.entity.SysUser;
-import com.czq.blog.pojo.vo.ArticleVo;
-import com.czq.blog.pojo.vo.HotArticleVo;
-import com.czq.blog.pojo.vo.ListArchivesVo;
+import com.czq.blog.pojo.vo.*;
+import com.czq.blog.result.Result;
 import com.czq.blog.service.ArticleService;
 import com.czq.blog.service.SysUserService;
 import com.czq.blog.service.TagService;
+import com.czq.blog.service.ThreadService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,8 @@ public class articleServiceImp implements ArticleService {
     TagService tagService;
     @Autowired
     SysUserService sysUserService;
+    @Autowired
+    ThreadService threadService;
 
     /**
      * 首页文章列表
@@ -65,6 +68,39 @@ public class articleServiceImp implements ArticleService {
     public List<ListArchivesVo> getListArchives() {
         List<ListArchivesVo> listArchivesVos=articleMapper.getListArchives();
         return listArchivesVos;
+    }
+
+    /**
+     * 通过id获取文章详情
+     * @param id
+     * @return
+     */
+    public Result view(Long id) {
+        Article article=articleMapper.getArticleById(id);
+        ArticleVo articleVo=new ArticleVo();
+        BeanUtils.copyProperties(article,articleVo);
+        Long bodyId = article.getBodyId();
+        ArticleBodyVo articleBodyVo=articleMapper.getBodyById(bodyId);
+        articleVo.setBody(articleBodyVo);
+        Long categoryId = article.getCategoryId();
+        Category category=articleMapper.getCategoryById(categoryId);
+        CategoryVo categoryVo=new CategoryVo();
+        BeanUtils.copyProperties(category,categoryVo);
+        //List<CategoryVo> categoryVoList=new ArrayList<>();
+        //categoryVoList.add(categoryVo);
+        articleVo.setCategory(categoryVo);
+        if(article.getCategoryId()!=null){
+            articleVo.setTags(tagService.findTagsByAarticleId(article.getId()));
+        }
+        if(article.getAuthorId()!=null){
+            articleVo.setAuthor(sysUserService.findUserById(article.getAuthorId()).getNickname());
+        }
+        articleVo.setCreateDate(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date(article.getCreateDate())));
+
+        //通过id查看文章详情，说明文章浏览量加一，此时利用线程池来更新浏览量
+        threadService.updateViewCount(articleMapper,article);
+
+        return Result.success(articleVo);
     }
 
     private List<ArticleVo> copyList(List<Article> result) {

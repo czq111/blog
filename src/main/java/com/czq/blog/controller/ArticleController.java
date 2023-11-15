@@ -46,4 +46,9 @@ public class ArticleController {
         return Result.success(listArchivesVos);
     }
 
+    @PostMapping("/view/{id}")
+    public Result view(@PathVariable("id") Long id){
+        return articleService.view(id);
+    }
+
 }

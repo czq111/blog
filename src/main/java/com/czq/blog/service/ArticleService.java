@@ -5,6 +5,7 @@ import com.czq.blog.pojo.entity.Article;
 import com.czq.blog.pojo.vo.ArticleVo;
 import com.czq.blog.pojo.vo.HotArticleVo;
 import com.czq.blog.pojo.vo.ListArchivesVo;
+import com.czq.blog.result.Result;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,4 +24,11 @@ public interface ArticleService {
     List<HotArticleVo> getNewArticle();
 
     List<ListArchivesVo> getListArchives();
+
+    /**
+     * 通过id获取文章详情
+     * @param id
+     * @return
+     */
+    Result view(Long id);
 }

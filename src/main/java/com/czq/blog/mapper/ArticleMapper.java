@@ -1,11 +1,14 @@
 package com.czq.blog.mapper;
 
 import com.czq.blog.pojo.entity.Article;
+import com.czq.blog.pojo.entity.Category;
+import com.czq.blog.pojo.vo.ArticleBodyVo;
 import com.czq.blog.pojo.vo.HotArticleVo;
 import com.czq.blog.pojo.vo.ListArchivesVo;
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -21,4 +24,16 @@ public interface ArticleMapper {
     List<HotArticleVo> getNewArticle();
 
     List<ListArchivesVo> getListArchives();
+
+    @Select("select * from ms_article where id=#{id}")
+    Article getArticleById(Long id);
+
+    @Select("select * from ms_article_body where id=#{bodyId}")
+    ArticleBodyVo getBodyById(Long bodyId);
+
+    @Select("select * from ms_category where id=#{categoryId}")
+    Category getCategoryById(Long categoryId);
+
+    @Update("update ms_article set view_counts=#{newCount} where id=#{id} and view_counts=#{viewCounts}")
+    void updateViewCount(Long id, int viewCounts, int newCount);
 }
