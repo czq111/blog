@@ -15,4 +15,7 @@ public interface TagMapper {
     List<Long> getHotTagsId(int limit);
 
     List<Tag> getTagsByTagsId(List<Long> tagsId);
+
+    @Select("select * from ms_tag ")
+    List<Tag> getAllTags();
 }

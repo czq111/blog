@@ -1,8 +1,10 @@
 package com.czq.blog.service.impl;
 
+import com.czq.blog.mapper.ArticleMapper;
 import com.czq.blog.mapper.CommentsMapper;
 import com.czq.blog.mapper.SysUserMapper;
 import com.czq.blog.pojo.dto.CommentParamDto;
+import com.czq.blog.pojo.entity.Article;
 import com.czq.blog.pojo.entity.Comment;
 import com.czq.blog.pojo.entity.SysUser;
 import com.czq.blog.pojo.vo.CommentVo;
@@ -14,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.LocalDateTime;
@@ -28,6 +31,8 @@ public class CommentsServiceImp  implements CommentsService {
     CommentsMapper commentsMapper;
     @Autowired
     SysUserMapper sysUserMapper;
+    @Autowired
+    ArticleMapper articleMapper;
     /**
      * 显示文章评论
      * @param articleId
@@ -69,6 +74,7 @@ public class CommentsServiceImp  implements CommentsService {
      * 评论功能
      * @param commentParamDto
      */
+    @Transactional
     public void changeComment(CommentParamDto commentParamDto) {
         SysUser sysUser = UserThreadLocal.get();
         Comment comment = new Comment();
@@ -86,6 +92,9 @@ public class CommentsServiceImp  implements CommentsService {
         Long toUserId = commentParamDto.getToUserId();
         comment.setToUid(toUserId == null ? 0 : toUserId);
         commentsMapper.changeComment(comment);
+        Article articleById = articleMapper.getArticleById(commentParamDto.getArticleId());
+        int commentCounts = articleById.getCommentCounts()+1;
+        articleMapper.updateCommentCounts(commentCounts,commentParamDto.getArticleId());
 
     }
 }

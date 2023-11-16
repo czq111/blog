@@ -36,4 +36,7 @@ public interface ArticleMapper {
 
     @Update("update ms_article set view_counts=#{newCount} where id=#{id} and view_counts=#{viewCounts}")
     void updateViewCount(Long id, int viewCounts, int newCount);
+
+    @Update("update ms_article set comment_counts=#{commentCounts} where id=#{articleId} ")
+    void updateCommentCounts(int commentCounts, Long articleId);
 }

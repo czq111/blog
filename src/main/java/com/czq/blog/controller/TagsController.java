@@ -23,4 +23,9 @@ public class TagsController {
         List<TagVo> tagVoList=tagService.getListHotTags(limit);
         return Result.success(tagVoList);
     }
+
+    @GetMapping
+    public Result getAllTags(){
+        return  tagService.getAllTags();
+    }
 }

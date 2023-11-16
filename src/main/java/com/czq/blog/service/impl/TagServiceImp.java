@@ -3,6 +3,7 @@ package com.czq.blog.service.impl;
 import com.czq.blog.mapper.TagMapper;
 import com.czq.blog.pojo.entity.Tag;
 import com.czq.blog.pojo.vo.TagVo;
+import com.czq.blog.result.Result;
 import com.czq.blog.service.TagService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -48,5 +49,17 @@ public class TagServiceImp implements TagService {
             tagVos.add(tagVo);
         }
         return tagVos;
+    }
+
+    @Override
+    public Result getAllTags() {
+        List<Tag> tags=tagMapper.getAllTags();
+        List<TagVo> tagVos=new ArrayList<>();
+        for (Tag tag : tags) {
+            TagVo tagVo=new TagVo();
+            BeanUtils.copyProperties(tag,tagVo);
+            tagVos.add(tagVo);
+        }
+        return Result.success(tagVos);
     }
 }
