@@ -1,6 +1,7 @@
 package com.czq.blog.mapper;
 
 import com.czq.blog.pojo.entity.Article;
+import com.czq.blog.pojo.entity.ArticleBody;
 import com.czq.blog.pojo.entity.Category;
 import com.czq.blog.pojo.vo.ArticleBodyVo;
 import com.czq.blog.pojo.vo.HotArticleVo;
@@ -39,4 +40,10 @@ public interface ArticleMapper {
 
     @Update("update ms_article set comment_counts=#{commentCounts} where id=#{articleId} ")
     void updateCommentCounts(int commentCounts, Long articleId);
+
+    void insert(Article article);
+
+    void insertBody(ArticleBody articleBody);
+
+    void update(Article article);
 }

@@ -1,5 +1,6 @@
 package com.czq.blog.controller;
 
+import com.czq.blog.pojo.dto.ArticleParam;
 import com.czq.blog.pojo.dto.PageParamsDto;
 import com.czq.blog.pojo.vo.HotArticleVo;
 import com.czq.blog.pojo.vo.ListArchivesVo;
@@ -50,5 +51,11 @@ public class ArticleController {
     public Result view(@PathVariable("id") Long id){
         return articleService.view(id);
     }
+
+    @PostMapping("/publish")
+    public Result publish(@RequestBody ArticleParam articleParam){
+        return articleService.publish(articleParam);
+    }
+
 
 }

@@ -18,4 +18,6 @@ public interface TagMapper {
 
     @Select("select * from ms_tag ")
     List<Tag> getAllTags();
+
+    void insertArticleTag(Long id, List<Long> ids);
 }

@@ -13,4 +13,11 @@
                 #{id}
             </foreach>
     </select>
+
+    <insert id="insertArticleTag">
+        insert into ms_article_tag(article_id, tag_id) VALUES
+            <foreach collection="ids" item="tagId" separator=",">
+                (#{id},#{tagId})
+            </foreach>
+    </insert>
 </mapper>

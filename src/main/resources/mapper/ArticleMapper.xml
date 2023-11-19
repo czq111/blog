@@ -7,4 +7,18 @@
                MONTH(FROM_UNIXTIME(create_date/1000, '%Y-%m-%d %H:%i:%s')) AS month,count(*) as count
         from ms_article GROUP BY year,month  ORDER BY year desc,month desc
     </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into ms_article(comment_counts, create_date, summary, title, view_counts, weight, author_id, body_id, category_id)
+        VALUES (#{commentCounts},#{createDate},#{summary},#{title},#{viewCounts},#{weight},#{authorId},#{bodyId},#{categoryId})
+    </insert>
+
+    <insert id="insertBody" useGeneratedKeys="true" keyProperty="id">
+        insert into ms_article_body(content, content_html, article_id) VALUES
+            (#{content},#{contentHtml},#{articleId})
+    </insert>
+
+    <update id="update">
+        update ms_article set body_id=#{bodyId} where id=#{id}
+    </update>
 </mapper>

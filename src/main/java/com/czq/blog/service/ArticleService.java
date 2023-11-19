@@ -1,5 +1,6 @@
 package com.czq.blog.service;
 
+import com.czq.blog.pojo.dto.ArticleParam;
 import com.czq.blog.pojo.dto.PageParamsDto;
 import com.czq.blog.pojo.entity.Article;
 import com.czq.blog.pojo.vo.ArticleVo;
@@ -31,4 +32,11 @@ public interface ArticleService {
      * @return
      */
     Result view(Long id);
+
+    /**
+     * 发布文章
+     * @param articleParam
+     * @return
+     */
+    Result publish(ArticleParam articleParam);
 }
