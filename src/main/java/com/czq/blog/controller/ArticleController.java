@@ -1,5 +1,6 @@
 package com.czq.blog.controller;
 
+import com.czq.blog.annotation.LogAnnotation;
 import com.czq.blog.pojo.dto.ArticleParam;
 import com.czq.blog.pojo.dto.PageParamsDto;
 import com.czq.blog.pojo.vo.HotArticleVo;
@@ -24,6 +25,7 @@ public class ArticleController {
      * @return
      */
     @PostMapping
+    @LogAnnotation(module = "文章模块",operation = "获取所有文展")
     public Result listArticle(@RequestBody PageParamsDto pageParamsDto){
         return Result.success(articleService.listArticle(pageParamsDto));
     }
