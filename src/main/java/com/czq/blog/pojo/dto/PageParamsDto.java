@@ -8,4 +8,6 @@ public class PageParamsDto {
     private int pageSize=10;
     Long categoryId;
     Long tagId;
+    String year;
+    String month;
 }

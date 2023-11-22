@@ -53,6 +53,15 @@ public class articleServiceImp implements ArticleService {
      */
     @Override
     public List<ArticleVo> listArticle(PageParamsDto pageParamsDto) {
+        String year = pageParamsDto.getYear();
+        String month = pageParamsDto.getMonth();
+        if((year!=null&&!year.equals(""))&&(month!=null||!month.equals(""))){
+            PageHelper.startPage(pageParamsDto.getPage(),pageParamsDto.getPageSize());
+            Page<Article> articlePage=articleMapper.listArticle4(year,month);
+            List<Article> result = articlePage.getResult();
+            List<ArticleVo> res=copyList(result);
+            return res;
+        }
         Long categoryId = pageParamsDto.getCategoryId();
         Long tagId = pageParamsDto.getTagId();
         if(tagId!=null){

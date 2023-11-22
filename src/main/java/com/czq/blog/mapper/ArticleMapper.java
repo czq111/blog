@@ -50,4 +50,6 @@ public interface ArticleMapper {
     Page<Article> listArticle2(Long categoryId);
 
     Page<Article> listArticle3(List<Long> articleIds);
+
+    Page<Article> listArticle4(String year, String month);
 }
