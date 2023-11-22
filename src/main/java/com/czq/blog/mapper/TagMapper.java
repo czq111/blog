@@ -20,4 +20,10 @@ public interface TagMapper {
     List<Tag> getAllTags();
 
     void insertArticleTag(Long id, List<Long> ids);
+
+    @Select("select * from ms_tag where id=#{id}")
+    Tag getAllTagById(Long id);
+
+    @Select("select article_id from ms_article_tag where tag_id=#{tagId}")
+    List<Long> getArticleIds(Long tagId);
 }

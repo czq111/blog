@@ -21,4 +21,15 @@
     <update id="update">
         update ms_article set body_id=#{bodyId} where id=#{id}
     </update>
+
+    <select id="listArticle2" resultType="com.czq.blog.pojo.entity.Article">
+        select * from ms_article  where category_id=#{categoryId} order by create_date desc
+    </select>
+
+    <select id="listArticle3" resultType="com.czq.blog.pojo.entity.Article" parameterType="list">
+        select * from ms_article  where
+            <foreach collection="articleIds" item="ids" separator="or" open="(" close=")">
+                id=#{ids}
+            </foreach>
+    </select>
 </mapper>

@@ -6,6 +6,7 @@ import com.czq.blog.service.TagService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,5 +28,15 @@ public class TagsController {
     @GetMapping
     public Result getAllTags(){
         return  tagService.getAllTags();
+    }
+
+    @GetMapping("/detail")
+    public Result getAllTagsDetail(){
+        return  tagService.getAllTagsDetail();
+    }
+
+    @GetMapping("detail/{id}")
+    public Result findDetailById(@PathVariable("id") Long id){
+        return tagService.findDetailById(id);
     }
 }

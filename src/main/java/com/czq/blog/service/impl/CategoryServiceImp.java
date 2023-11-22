@@ -22,4 +22,16 @@ public class CategoryServiceImp implements CategoryService {
         List<Category> category=categoryMapper.getCategorys();
         return Result.success(category);
     }
+
+    @Override
+    public Result getCategorysDetail() {
+        List<Category> category=categoryMapper.getCategorys();
+        return Result.success(category);
+    }
+
+    @Override
+    public Result categoriesDetailById(Long id) {
+        Category category=categoryMapper.getCategoryById(id);
+        return Result.success(category);
+    }
 }

@@ -53,6 +53,23 @@ public class articleServiceImp implements ArticleService {
      */
     @Override
     public List<ArticleVo> listArticle(PageParamsDto pageParamsDto) {
+        Long categoryId = pageParamsDto.getCategoryId();
+        Long tagId = pageParamsDto.getTagId();
+        if(tagId!=null){
+            List<Long> articleIds= tagMapper.getArticleIds(tagId);
+            PageHelper.startPage(pageParamsDto.getPage(),pageParamsDto.getPageSize());
+            Page<Article> articlePage=articleMapper.listArticle3(articleIds);
+            List<Article> result = articlePage.getResult();
+            List<ArticleVo> res=copyList(result);
+            return res;
+        }
+        if(categoryId!=null){
+            PageHelper.startPage(pageParamsDto.getPage(),pageParamsDto.getPageSize());
+            Page<Article> articlePage=articleMapper.listArticle2(categoryId);
+            List<Article> result = articlePage.getResult();
+            List<ArticleVo> res=copyList(result);
+            return res;
+        }
         PageHelper.startPage(pageParamsDto.getPage(),pageParamsDto.getPageSize());
         Page<Article> articlePage=articleMapper.listArticle();
         List<Article> result = articlePage.getResult();

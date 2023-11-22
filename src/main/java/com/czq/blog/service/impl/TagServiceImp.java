@@ -62,4 +62,16 @@ public class TagServiceImp implements TagService {
         }
         return Result.success(tagVos);
     }
+
+    public Result getAllTagsDetail() {
+        List<Tag> tags=tagMapper.getAllTags();
+        return Result.success(tags);
+    }
+
+    @Override
+    public Result findDetailById(Long id) {
+        Tag tag=tagMapper.getAllTagById(id);
+        return Result.success(tag);
+
+    }
 }

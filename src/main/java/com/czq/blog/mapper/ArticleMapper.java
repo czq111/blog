@@ -46,4 +46,8 @@ public interface ArticleMapper {
     void insertBody(ArticleBody articleBody);
 
     void update(Article article);
+
+    Page<Article> listArticle2(Long categoryId);
+
+    Page<Article> listArticle3(List<Long> articleIds);
 }

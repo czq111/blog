@@ -10,4 +10,7 @@ import java.util.*;
 public interface CategoryMapper {
     @Select("select * from ms_category")
     List<Category> getCategorys();
+
+    @Select("select * from ms_category where id=#{id}")
+    Category getCategoryById(Long id);
 }
