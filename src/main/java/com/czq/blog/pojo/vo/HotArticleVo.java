@@ -6,10 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class HotArticleVo {
+public class HotArticleVo implements Serializable {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
     private String title;

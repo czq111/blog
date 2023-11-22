@@ -8,6 +8,7 @@ import com.czq.blog.service.TagService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -63,12 +64,13 @@ public class TagServiceImp implements TagService {
         return Result.success(tagVos);
     }
 
+    @Cacheable(cacheNames = "tagCache")
     public Result getAllTagsDetail() {
         List<Tag> tags=tagMapper.getAllTags();
         return Result.success(tags);
     }
 
-    @Override
+    @Cacheable(cacheNames = "tagCacheDetail",key = "#id")
     public Result findDetailById(Long id) {
         Tag tag=tagMapper.getAllTagById(id);
         return Result.success(tag);

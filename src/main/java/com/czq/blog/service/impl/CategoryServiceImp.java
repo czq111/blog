@@ -7,6 +7,7 @@ import com.czq.blog.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -23,13 +24,13 @@ public class CategoryServiceImp implements CategoryService {
         return Result.success(category);
     }
 
-    @Override
+    @Cacheable(cacheNames = "categoryCache")
     public Result getCategorysDetail() {
         List<Category> category=categoryMapper.getCategorys();
         return Result.success(category);
     }
 
-    @Override
+    @Cacheable(cacheNames = "categoryDetailCache",key = "#id")
     public Result categoriesDetailById(Long id) {
         Category category=categoryMapper.getCategoryById(id);
         return Result.success(category);

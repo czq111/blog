@@ -22,6 +22,8 @@ import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import net.sf.jsqlparser.expression.LongValue;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,6 +54,7 @@ public class articleServiceImp implements ArticleService {
      * @return
      */
     @Override
+    @Cacheable(cacheNames = "articleCache")
     public List<ArticleVo> listArticle(PageParamsDto pageParamsDto) {
         String year = pageParamsDto.getYear();
         String month = pageParamsDto.getMonth();
@@ -86,19 +89,19 @@ public class articleServiceImp implements ArticleService {
         return res;
     }
 
-    @Override
+    //@Cacheable(cacheNames = "hotArticleCache")
     public List<HotArticleVo> getHotArticle(int limit) {
         List<HotArticleVo> articles=articleMapper.getHotArticle(limit);
         return articles;
     }
 
-    @Override
+    @Cacheable(cacheNames = "newArticleCache")
     public List<HotArticleVo> getNewArticle() {
         List<HotArticleVo> newArticleVos=articleMapper.getNewArticle();
         return newArticleVos;
     }
 
-    @Override
+    @Cacheable(cacheNames = "listArchivesCache")
     public List<ListArchivesVo> getListArchives() {
         List<ListArchivesVo> listArchivesVos=articleMapper.getListArchives();
         return listArchivesVos;
@@ -109,6 +112,7 @@ public class articleServiceImp implements ArticleService {
      * @param id
      * @return
      */
+    @Cacheable(cacheNames = "articleDetailCache",key = "#id")
     public Result view(Long id) {
         Article article=articleMapper.getArticleById(id);
         ArticleVo articleVo=new ArticleVo();
@@ -143,6 +147,7 @@ public class articleServiceImp implements ArticleService {
      * @return
      */
     @Transactional
+    @CacheEvict(cacheNames = {"articleCache","newArticleCache","listArchivesCache"})
     public Result publish(ArticleParam articleParam) {
         //ms_article
         //ms_article_body
